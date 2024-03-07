@@ -13,7 +13,7 @@ app.use(fileupload({
 }));
 
 app.get("/",(req,res) => {
-    res.send("Welcome Bro!!");
+    res.render("welcome");
 })
 
 app.get("/simpleGet",(req,res) => {

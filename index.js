@@ -12,6 +12,9 @@ app.use(fileupload({
     tempFileDir: '/tmp/'
 }));
 
+app.get("/",(req,res) => {
+    res.send("Welcome Bro!!");
+})
 
 app.get("/simpleGet",(req,res) => {
     console.log(req.query);

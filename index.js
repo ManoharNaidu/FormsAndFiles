@@ -1,7 +1,7 @@
 const express = require('express');
 const fileupload = require('express-fileupload');
 const app = express();
-
+const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 
 // middlewares
@@ -32,6 +32,6 @@ app.get("/postForm",(req,res) => {
     res.render("postForm");
 })
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(PORT, () => {
+    console.log('Server is running on port', PORT);
 });

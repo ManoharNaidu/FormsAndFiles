@@ -1,5 +1,5 @@
 const express = require('express');
-
+const fileupload = require('express-fileupload');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -7,12 +7,22 @@ app.set('view engine', 'ejs');
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(fileupload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}));
 
 
 app.get("/simpleGet",(req,res) => {
     console.log(req.query);
 
     res.send(req.query);
+})
+
+app.post("/simplePost",(req,res) => {
+    console.log(req.body);
+    console.log(req.files);
+    res.send({"body" : req.body, "files" : req.files});
 })
 
 app.get("/getForm",(req,res) => {

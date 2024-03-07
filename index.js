@@ -34,17 +34,41 @@ app.get("/simpleGet",(req,res) => {
 app.post("/simplePost", async(req,res) => {
     console.log(req.body);
     console.log(req.files);
-    let file = req.files.sampleFile;
-    const result = await cloudinary.uploader.upload(file.tempFilePath, {
-        folder : "User"
-    })
-    console.log(result);
+
+    // To upload multiple files at a time
+    let ImageArray = []
+
+    if (req.files){
+        for(let i = 0; i < req.files.sampleFile.length; i++){
+            await cloudinary.uploader.upload(req.files.sampleFile[i].tempFilePath,{
+                folder: "User"
+            })
+            .then(result => {
+                ImageArray.push({
+                    public_id : result.public_id,
+                    secure_url : result.secure_url
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).send('An error occurred during the upload');
+            });
+        }    
+    }
+
+    // To upload one file at a time
+    // let file = req.files.sampleFile;
+    // const result = await cloudinary.uploader.upload(file.tempFilePath, {
+    //     folder : "User"
+    // })
+    // console.log(result);
 
     details = {
         firstname : req.body.firstname,
         lastname : req.body.lastname,
-        result : result,
+        ImageArray
     }
+    console.log(details);
     res.send(details);
 })
 
